@@ -6,6 +6,8 @@ inFile1=input/params.txt
 localDir=input/run/
 globalDir=$(grep globalPath $inFile1 | cut -f2)
 
+lane=1
+
 files=$(find -L $localDir -name '*q.gz' | sort | grep -v Undetermined)
 outFile=intermediate/02.txt
 
@@ -13,7 +15,7 @@ outFile=intermediate/02.txt
 localDir=$(echo $localDir | sed 's_/_\\/_g')
 globalDir=$(echo $globalDir | sed 's_/_\\/_g')
 
-echo -e "file\tsampleID\tread" > $outFile
+echo -e "file\tsampleID\tread\tlane" > $outFile
 for file in $files
 do
 
@@ -27,5 +29,5 @@ do
     read=2
   fi
 
-  echo -e "$global\t$sampleID\t$read" >> $outFile
+  echo -e "$global\t$sampleID\t$read\t$lane" >> $outFile
 done
