@@ -1,0 +1,3 @@
+property	value
+globalPath	/home/bankhead/bt/rawData/neamati/yibinNovogene20190725/C202SC19060654/raw_data/
+cellline	HCT116
