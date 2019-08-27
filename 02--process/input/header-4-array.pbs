@@ -1,0 +1,23 @@
+#!/bin/bash
+####  PBS preamble
+#PBS -M bankhead@umich.edu
+#PBS -m n
+
+# Change the number of cores (ppn=1), amount of memory, and walltime:
+#PBS -l walltime=96:00:00
+#PBS -l nodes=1:ppn=4,pmem=4000mb
+#PBS -j oe
+#PBS -V
+
+#PBS -A simeone_armis
+#PBS -q armis
+#PBS -l qos=armis
+#PBS -t 1-1%1
+####  End PBS preamble
+
+#  Show list of CPUs you ran on, if you're running under PBS
+if [ -n "$PBS_NODEFILE" ]; then cat $PBS_NODEFILE; fi
+
+#  Change to the directory you submitted from
+if [ -n "$PBS_O_WORKDIR" ]; then cd $PBS_O_WORKDIR; pwd; fi
+

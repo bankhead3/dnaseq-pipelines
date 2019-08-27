@@ -36,19 +36,19 @@ def postprocess(pars):
         pars['out'].write(cmd + '\n\n')
 
         # assess recalibrationt
-        cmd = 'time java -jar /sw/med/centos7/gatk/3.6.1/GenomeAnalysisTK.jar -T BaseRecalibrator -I ' + pars[sampleReplicate]['bam2'] + ' -R ' + pars['reference'] + ' -knownSites ' + pars['known1'] + ' -knownSites ' + pars['known2'] + ' -o ' + pars[sampleReplicate]['recal1']
+        cmd = 'time java -jar /sw/med/centos7/gatk/3.6/GenomeAnalysisTK.jar -T BaseRecalibrator -I ' + pars[sampleReplicate]['bam2'] + ' -R ' + pars['reference'] + ' -knownSites ' + pars['known1'] + ' -knownSites ' + pars['known2'] + ' -o ' + pars[sampleReplicate]['recal1']
         pars['out'].write(cmd + '\n\n')
 
         # re-assess recalibration
-        cmd = 'time java -jar /sw/med/centos7/gatk/3.6.1/GenomeAnalysisTK.jar -T BaseRecalibrator -I ' + pars[sampleReplicate]['bam2'] + ' -R ' + pars['reference'] + ' -knownSites ' + pars['known1'] + ' -knownSites ' + pars['known2'] + ' -BQSR ' + pars[sampleReplicate]['recal1'] + ' -o ' + pars[sampleReplicate]['recal2']
+        cmd = 'time java -jar /sw/med/centos7/gatk/3.6/GenomeAnalysisTK.jar -T BaseRecalibrator -I ' + pars[sampleReplicate]['bam2'] + ' -R ' + pars['reference'] + ' -knownSites ' + pars['known1'] + ' -knownSites ' + pars['known2'] + ' -BQSR ' + pars[sampleReplicate]['recal1'] + ' -o ' + pars[sampleReplicate]['recal2']
         pars['out'].write(cmd + '\n\n')
 
         # plot before and after
-        cmd = 'time java -jar /sw/med/centos7/gatk/3.6.1/GenomeAnalysisTK.jar -T AnalyzeCovariates -R ' + pars['reference'] + ' -before ' + pars[sampleReplicate]['recal1'] + ' -after ' + pars[sampleReplicate]['recal2'] + ' -plots ' + pars[sampleReplicate]['recal-plots']
+        cmd = 'time java -jar /sw/med/centos7/gatk/3.6/GenomeAnalysisTK.jar -T AnalyzeCovariates -R ' + pars['reference'] + ' -before ' + pars[sampleReplicate]['recal1'] + ' -after ' + pars[sampleReplicate]['recal2'] + ' -plots ' + pars[sampleReplicate]['recal-plots']
         pars['out'].write(cmd + '\n\n')
 
         # create a recalibrated bam
-        cmd = 'time java -jar /sw/med/centos7/gatk/3.6.1/GenomeAnalysisTK.jar -T PrintReads -R ' + pars['reference'] + ' -I ' + pars[sampleReplicate]['bam2'] + ' -BQSR ' + pars[sampleReplicate]['recal1'] + ' -o ' + pars[sampleReplicate]['bam3']
+        cmd = 'time java -jar /sw/med/centos7/gatk/3.6/GenomeAnalysisTK.jar -T PrintReads -R ' + pars['reference'] + ' -I ' + pars[sampleReplicate]['bam2'] + ' -BQSR ' + pars[sampleReplicate]['recal1'] + ' -o ' + pars[sampleReplicate]['bam3']
         pars['out'].write(cmd + '\n\n')
 
         # move one directory up
@@ -68,7 +68,7 @@ def postprocess(pars):
         countFile = outDir + 'totalFragments/' + sampleReplicate + '.df.txt'
         tmp1 = outDir + sampleReplicate + '.tmp1.txt'
         tmp2 = outDir + sampleReplicate + '.tmp2.txt'
-        pars['out'].write('samtools view -F 4 ' + pars[sampleReplicate]['bam3'] + ' | cut -f1 > ' + tmp1 + '\n')
+        pars['out'].write('samtools view -F 4 ' + pars[sampleReplicate]['bam4'] + ' | cut -f1 > ' + tmp1 + '\n')
         pars['out'].write('sort ' + tmp1 + ' | uniq > ' + tmp2 + '\n')
         pars['out'].write('wc -l ' + tmp2 + ' | sed "s/ .*//" > ' + countFile + '\n')
         pars['out'].write('rm -f ' + tmp1 + ' ' + tmp2 + '\n')
